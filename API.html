@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather API</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+</head>
+
+<body style="background-color: skyblue; text-align: center; font-size: 45px;margin-top: 10%;background-image: url(5713508-weather-wallpaper.jpg)">
+    <div class="container">
+    <input id="city" type="text" placeholder="City Name" required name="Name"> <br>
+    <button id="getWeatherForcast" class="btn btn-success" type="submit">Get Weahter</button>
+    </div>
+    <div id="showWeatherForcast" style=" color: cornsilk; margin: 5% auto;"></div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#getWeatherForcast").click(function() {
+                var city = $("#city").val();
+                var key = '267871d19f482d285e1fe6937d6ebf6d';
+
+                $.ajax({
+                    url: 'http://api.openweathermap.org/data/2.5/weather',
+                    dataType: 'json',
+                    type: 'GET',
+                    data: {
+                        q: city,
+                        appid: key,
+                        units: 'metric'
+                    },
+
+                    success: function(data) {
+                        var wf = '';
+                        $.each(data.weather, function(index, val) {
+                            wf += '<p><b>' + data.name + "</b><img src= " + val.icon + ".png></p>" +
+                                data.main.temp + '&deg;c' + '|' + val.main + "," + val.description
+
+                        });
+                        $("#showWeatherForcast").html(wf);
+
+                    }
+
+
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
